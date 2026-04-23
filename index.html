@@ -3,262 +3,231 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>Anadolu Fintech | Modern Dashboard</title>
-  <!-- Tailwind + Fonts + Chart.js + Font Awesome -->
+  <title>Content OS | Üret, Dönüştür, Yönet, Kazan</title>
+  <!-- Tailwind + Chart.js + Font Awesome -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * { font-family: 'Inter', sans-serif; }
-    body { background: #f5f7fc; transition: background 0.3s, color 0.2s; }
-    /* Dark mode styles */
-    body.dark { background: #0b1120; color: #e8edf5; }
-    body.dark .card-glass { background: #111827; border-color: #1f2937; box-shadow: 0 20px 30px -12px rgba(0,0,0,0.5); }
-    body.dark .sidebar, body.dark .top-nav { background: #0f172a; border-color: #1e293b; }
-    body.dark .btn-outline { border-color: #334155; color: #94a3b8; }
-    body.dark .input-field { background: #1e293b; border-color: #334155; color: #e2e8f0; }
-    .card-glass { background: white; border-radius: 2rem; box-shadow: 0 20px 35px -10px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.02); transition: all 0.2s ease; border: 1px solid #eef2ff; }
-    .sidebar { transition: all 0.2s; }
-    .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 1.5rem; font-weight: 500; transition: all 0.2s; cursor: pointer; color: #475569; }
-    .nav-item:hover, .nav-item.active { background: #eef2ff; color: #1e3a8a; }
-    body.dark .nav-item { color: #94a3b8; }
-    body.dark .nav-item:hover, body.dark .nav-item.active { background: #1e293b; color: #60a5fa; }
-    .btn-primary { background: #2563eb; color: white; border-radius: 2rem; padding: 0.7rem 1.5rem; font-weight: 600; transition: 0.2s; box-shadow: 0 4px 6px -1px rgba(37,99,235,0.2); }
+    body { background: #fafcfd; transition: background 0.2s, color 0.2s; }
+    .dark body { background: #0b1120; color: #eef2ff; }
+    .card-glass { background: white; border-radius: 2rem; border: 1px solid #eef2ff; box-shadow: 0 8px 20px rgba(0,0,0,0.02), 0 2px 4px rgba(0,0,0,0.02); transition: all 0.2s; }
+    .dark .card-glass { background: #111827; border-color: #1f2937; }
+    .sidebar-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 1.5rem; font-weight: 500; cursor: pointer; transition: 0.2s; color: #475569; }
+    .sidebar-item:hover, .sidebar-item.active { background: #eef2ff; color: #1e3a8a; }
+    .dark .sidebar-item:hover, .dark .sidebar-item.active { background: #1e293b; color: #60a5fa; }
+    .btn-primary { background: #2563eb; color: white; border-radius: 2rem; padding: 0.6rem 1.5rem; font-weight: 600; transition: all 0.2s; box-shadow: 0 4px 6px -2px rgba(37,99,235,0.2); }
     .btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); }
-    .input-field { border: 1px solid #e2e8f0; border-radius: 1.5rem; padding: 0.75rem 1rem; width: 100%; outline: none; transition: 0.2s; background: white; }
-    .input-field:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.2); }
-    .loader { border: 2px solid #e2e8f0; border-top: 2px solid #2563eb; border-radius: 50%; width: 24px; height: 24px; animation: spin 0.8s linear infinite; display: inline-block; }
+    .input-field { border: 1px solid #e2e8f0; border-radius: 1.5rem; padding: 0.6rem 1rem; width: 100%; outline: none; background: white; transition: 0.2s; }
+    .dark .input-field { background: #1e293b; border-color: #334155; color: #e2e8f0; }
+    .loader { border: 2px solid #cbd5e1; border-top: 2px solid #2563eb; border-radius: 50%; width: 24px; height: 24px; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .transition-smooth { transition: all 0.2s ease; }
-    /* Onboarding card */
-    .onboarding-card { background: white; border-radius: 2rem; box-shadow: 0 25px 40px -12px rgba(0,0,0,0.25); }
-    body.dark .onboarding-card { background: #1e293b; }
-    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .content-card { transition: 0.15s; cursor: pointer; }
+    .content-card:hover { transform: translateY(-2px); background: #f8fafc; }
+    .dark .content-card:hover { background: #1e293b; }
+    .transition-smooth { transition: all 0.2s; }
+    .onboarding-modal { background: rgba(0,0,0,0.6); backdrop-filter: blur(6px); }
+    .tag { background: #eef2ff; color: #1e40af; border-radius: 30px; padding: 0.2rem 0.7rem; font-size: 0.7rem; font-weight: 600; }
+    .dark .tag { background: #1e293b; color: #90cdf4; }
   </style>
 </head>
 <body class="antialiased">
 
-  <!-- ONBOARDING MODAL (ilk ziyaret) -->
-  <div id="onboardingModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 transition-all">
-    <div class="onboarding-card max-w-md w-full mx-4 p-6 text-center space-y-4 animate-fade-in">
-      <i class="fas fa-rocket text-5xl text-blue-600"></i>
-      <h2 class="text-2xl font-bold">Finansal yolculuğuna hoş geldin 👋</h2>
-      <p class="text-gray-500 dark:text-gray-300">Net değerini takip et, yatırımlarını yönet, kredi skorunu görselleştir ve finansal özgürlüğe bir adım daha yaklaş.</p>
-      <button id="closeOnboarding" class="btn-primary w-full">Hadi başlayalım →</button>
+<!-- ONBOARDING POPUP -->
+<div id="onboardingOverlay" class="fixed inset-0 onboarding-modal flex items-center justify-center z-50 transition-all">
+  <div class="max-w-md w-full mx-4 bg-white dark:bg-gray-900 rounded-3xl p-6 shadow-2xl space-y-4 text-center">
+    <i class="fas fa-microchip text-5xl text-blue-600"></i>
+    <h2 class="text-2xl font-bold">Content OS 🚀</h2>
+    <p class="text-gray-600 dark:text-gray-300">Üret, dönüştür, yönet ve dijital içeriklerini tek panelden paraya çevir. AI asistan, içerik takvimi, otomasyon ve gelir modülleri seni bekliyor.</p>
+    <button id="startOnboardingBtn" class="btn-primary w-full">Hemen Başla →</button>
+  </div>
+</div>
+
+<!-- ANA DASHBOARD (grid + sidebar) -->
+<div class="flex flex-col lg:flex-row min-h-screen relative">
+  <!-- SIDEBAR -->
+  <aside class="w-72 fixed lg:relative z-30 h-full bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 transform -translate-x-full lg:translate-x-0 transition-transform duration-200" id="sidebar">
+    <div class="p-5 flex items-center gap-3 border-b border-gray-100 dark:border-gray-800">
+      <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center"><i class="fas fa-brain text-white text-lg"></i></div>
+      <span class="font-bold text-xl">Content <span class="text-blue-600">OS</span></span>
     </div>
-  </div>
-
-  <!-- ANA UYGULAMA (SİDEBAR + İÇERİK) -->
-  <div class="flex flex-col lg:flex-row min-h-screen">
-    <!-- SIDEBAR -->
-    <aside class="sidebar fixed lg:relative w-72 h-full z-30 bg-white dark:bg-[#0f172a] border-r border-gray-100 dark:border-gray-800 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out" id="sidebar">
-      <div class="p-6 flex items-center gap-3 border-b border-gray-100 dark:border-gray-800">
-        <div class="w-10 h-10 rounded-2xl bg-blue-600 flex items-center justify-center"><i class="fas fa-chart-line text-white text-xl"></i></div>
-        <span class="font-bold text-2xl tracking-tight">Anadolu<span class="text-blue-600">Fintech</span></span>
+    <nav class="p-4 space-y-2 mt-4">
+      <div class="sidebar-item" data-view="dashboard"><i class="fas fa-chart-line w-6"></i><span>Analytics</span></div>
+      <div class="sidebar-item" data-view="create"><i class="fas fa-magic w-6"></i><span>Üretim (AI)</span></div>
+      <div class="sidebar-item" data-view="transform"><i class="fas fa-exchange-alt w-6"></i><span>Dönüşüm</span></div>
+      <div class="sidebar-item" data-view="cms"><i class="fas fa-database w-6"></i><span>İçerik Yönetimi</span></div>
+      <div class="sidebar-item" data-view="monetize"><i class="fas fa-coins w-6"></i><span>Para Kazanma</span></div>
+      <div class="sidebar-item" data-view="automation"><i class="fas fa-robot w-6"></i><span>Otomasyon</span></div>
+      <div class="sidebar-item" data-view="aiassist"><i class="fas fa-comments w-6"></i><span>AI Asistan</span></div>
+    </nav>
+    <div class="absolute bottom-6 left-0 w-full px-4">
+      <div class="flex items-center justify-between p-3 rounded-2xl bg-gray-50 dark:bg-gray-800/50">
+        <span class="text-sm font-medium"><i class="fas fa-moon"></i> Karanlık Mod</span>
+        <button id="darkModeToggle" class="w-10 h-5 bg-gray-300 rounded-full relative flex items-center transition"><span class="absolute left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform dark:translate-x-5"></span></button>
       </div>
-      <nav class="p-4 space-y-2 mt-4">
-        <div class="nav-item" data-view="dashboard"><i class="fas fa-tachometer-alt w-6"></i><span>Dashboard</span></div>
-        <div class="nav-item" data-view="invest"><i class="fas fa-chart-pie w-6"></i><span>Yatırım</span></div>
-        <div class="nav-item" data-view="credit"><i class="fas fa-coins w-6"></i><span>Kredi & Borç</span></div>
-        <div class="nav-item" data-view="tools"><i class="fas fa-calculator w-6"></i><span>Finansal Araçlar</span></div>
-        <div class="nav-item" data-view="ai"><i class="fas fa-robot w-6"></i><span>AI Danışman</span></div>
-        <div class="nav-item" data-view="settings"><i class="fas fa-sliders-h w-6"></i><span>Ayarlar</span></div>
-      </nav>
-      <div class="absolute bottom-6 left-0 right-0 px-4">
-        <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800/50 rounded-2xl">
-          <span class="text-sm font-medium"><i class="fas fa-moon"></i> Karanlık Mod</span>
-          <button id="darkModeToggle" class="w-10 h-5 rounded-full bg-gray-300 relative flex items-center transition"><span class="absolute left-0.5 w-4 h-4 bg-white rounded-full shadow transform transition-transform dark:translate-x-5"></span></button>
-        </div>
-      </div>
-    </aside>
+    </div>
+  </aside>
 
-    <!-- MAIN CONTENT -->
-    <main class="flex-1 lg:ml-72">
-      <!-- TOP NAVBAR -->
-      <div class="top-nav sticky top-0 z-20 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 px-5 py-4 flex justify-between items-center">
-        <button id="mobileMenuBtn" class="lg:hidden text-2xl"><i class="fas fa-bars"></i></button>
-        <div class="flex items-center gap-3">
-          <span class="relative"><i class="far fa-bell text-xl text-gray-500"></i><span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span></span>
-          <div class="flex items-center gap-2 cursor-pointer" id="userProfileBtn">
-            <div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold">OB</div>
-            <span class="hidden sm:inline font-medium">Orhan Bey</span>
-          </div>
+  <!-- MAIN PANEL -->
+  <main class="flex-1 lg:ml-72">
+    <!-- TOPBAR -->
+    <div class="sticky top-0 z-20 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 px-5 py-4 flex justify-between items-center">
+      <button id="mobileMenuBtn" class="lg:hidden text-2xl"><i class="fas fa-bars"></i></button>
+      <div class="flex gap-2"><i class="fas fa-bell text-gray-500 text-xl relative"><span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span></i><span class="font-medium hidden sm:inline">Merhaba, Creator</span></div>
+    </div>
+    <div class="p-5 lg:p-7 space-y-8">
+
+      <!-- 1. ANALYTICS DASHBOARD -->
+      <div id="view-dashboard" class="view-container space-y-6">
+        <div class="flex justify-between items-center"><h1 class="text-2xl font-bold">📊 İçerik Analytics</h1><button id="refreshStats" class="btn-primary text-sm px-3 py-1">Yenile</button></div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div class="card-glass p-5"><div class="flex justify-between"><span>Toplam Görüntülenme</span><i class="fas fa-eye text-blue-500"></i></div><p id="totalViews" class="text-3xl font-bold mt-1">124.5K</p></div>
+          <div class="card-glass p-5"><div class="flex justify-between"><span>Etkileşim Oranı</span><i class="fas fa-chart-line"></i></div><p id="engagementRate" class="text-3xl font-bold mt-1">8.2%</p></div>
+          <div class="card-glass p-5"><div class="flex justify-between"><span>Toplam Gelir (₺)</span><i class="fas fa-coins text-green-500"></i></div><p id="totalRevenue" class="text-3xl font-bold mt-1">₺4.280</p></div>
         </div>
+        <div class="card-glass p-5"><canvas id="contentChart" height="150"></canvas></div>
+        <div class="card-glass p-5"><h3 class="font-semibold">Popüler İçerikler</h3><div id="topContentsList" class="mt-2 space-y-2"></div></div>
       </div>
 
-      <div class="p-5 lg:p-7">
-        <!-- DASHBOARD VIEW -->
-        <div id="view-dashboard" class="view-container space-y-6">
-          <div class="flex flex-wrap justify-between items-center">
-            <h1 class="text-2xl font-bold">Genel Bakış</h1>
-            <div class="flex gap-2"><button class="btn-primary text-sm px-4 py-2" id="refreshDataBtn"><i class="fas fa-sync-alt mr-1"></i> Yenile</button></div>
-          </div>
-          <!-- KPI Cards -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            <div class="card-glass p-5"><div class="flex justify-between"><span class="text-gray-500">Net Değer (Net Worth)</span><i class="fas fa-chart-line text-blue-500"></i></div><p class="text-3xl font-bold mt-2" id="netWorthVal">₺0</p><p class="text-xs text-emerald-600 mt-1"><i class="fas fa-arrow-up"></i> +%2,3</p></div>
-            <div class="card-glass p-5"><div class="flex justify-between"><span class="text-gray-500">Nakit / TL</span><i class="fas fa-wallet text-blue-500"></i></div><p class="text-3xl font-bold mt-2" id="cashVal">₺0</p></div>
-            <div class="card-glass p-5"><div class="flex justify-between"><span class="text-gray-500">Toplam Yatırım</span><i class="fas fa-chart-pie text-blue-500"></i></div><p class="text-3xl font-bold mt-2" id="investVal">₺0</p></div>
-            <div class="card-glass p-5"><div class="flex justify-between"><span class="text-gray-500">Aylık Harcama</span><i class="fas fa-credit-card text-blue-500"></i></div><p class="text-3xl font-bold mt-2" id="spendingVal">₺0</p></div>
-            <div class="card-glass p-5 col-span-1 sm:col-span-2"><div class="mb-2">Net Değer Değişimi (Son 6 Ay)</div><canvas id="netWorthChart" height="150"></canvas></div>
-          </div>
-          <!-- recent activity mock -->
-          <div class="card-glass p-5"><h3 class="font-semibold">Son İşlemler</h3><div class="mt-3 space-y-3" id="recentTransactions"></div></div>
-        </div>
-
-        <!-- YATIRIM MODÜLÜ -->
-        <div id="view-invest" class="view-container hidden space-y-6">
-          <h2 class="text-2xl font-bold">Yatırım Portföyü</h2>
-          <div class="grid lg:grid-cols-2 gap-6">
-            <div class="card-glass p-5"><canvas id="assetChart" height="220"></canvas></div>
-            <div class="card-glass p-5"><h3 class="font-semibold">Varlık Dağılımı</h3><div id="assetAllocationList" class="space-y-2 mt-3"></div></div>
-          </div>
-          <div class="card-glass p-5"><h3 class="font-semibold">Al / Sat Simülasyonu</h3><div class="flex flex-wrap gap-4 mt-3"><select id="assetSelect" class="input-field w-48"><option value="BTC">Bitcoin</option><option value="ETH">Ethereum</option><option value="HISSETR">BIST Hisse</option></select><input type="number" id="tradeAmount" placeholder="Miktar (₺)" class="input-field w-48"><button id="simulateBuyBtn" class="btn-primary">Satın Al</button><button id="simulateSellBtn" class="btn-outline border border-gray-300 rounded-full px-4">Sat</button></div><div id="tradeMessage" class="text-sm mt-3 text-gray-500"></div></div>
-        </div>
-
-        <!-- KREDİ MODÜLÜ -->
-        <div id="view-credit" class="view-container hidden space-y-6">
-          <h2 class="text-2xl font-bold">Kredi & Borç Yönetimi</h2>
-          <div class="grid md:grid-cols-2 gap-6">
-            <div class="card-glass p-5"><h3 class="font-semibold">Kredi Skoru</h3><div class="relative pt-4"><canvas id="creditScoreChart" width="200" height="200"></canvas><div class="text-center mt-2"><span id="creditScoreValue" class="text-3xl font-bold">712</span><span class="text-gray-500">/850</span></div></div></div>
-            <div class="card-glass p-5"><h3 class="font-semibold">Kredi Başvuru Formu</h3><input type="text" placeholder="Tutar (₺)" id="loanAmount" class="input-field mt-2"><input type="text" placeholder="Vade (Ay)" id="loanTerm" class="input-field mt-2"><button id="calculateLoanBtn" class="btn-primary mt-2">Aylık Ödeme Hesapla</button><div id="loanResult" class="mt-3 text-sm bg-gray-50 dark:bg-gray-800 p-3 rounded-2xl"></div></div>
-          </div>
-        </div>
-
-        <!-- FİNANSAL ARAÇLAR (BÜTÇE + FIRE) -->
-        <div id="view-tools" class="view-container hidden space-y-6">
-          <h2 class="text-2xl font-bold">Finansal Planlama Araçları</h2>
-          <div class="grid md:grid-cols-2 gap-6">
-            <div class="card-glass p-5"><h3 class="font-semibold">Aylık Bütçe Takibi</h3><label>Gelir (₺)</label><input type="number" id="budgetIncome" class="input-field" value="45000"><label>Gider (₺)</label><input type="number" id="budgetExpense" class="input-field" value="28000"><button id="calcBudgetBtn" class="btn-primary mt-2">Bütçeyi Analiz Et</button><div id="budgetResult" class="mt-3 text-sm"></div></div>
-            <div class="card-glass p-5"><h3 class="font-semibold">🏖️ FIRE Hesaplayıcı (Finansal Özgürlük)</h3><label>Yıllık Harcama (₺)</label><input type="number" id="fireExpense" class="input-field" value="300000"><label>Mevcut Birikim (₺)</label><input type="number" id="fireCapital" class="input-field" value="500000"><label>Yıllık Getiri (%)</label><input type="number" id="fireReturn" class="input-field" value="8"><button id="calcFireBtn" class="btn-primary mt-2">FIRE Hedefi Hesapla</button><div id="fireResult" class="mt-3 text-sm"></div><div class="mt-2 text-xs text-gray-500">4% Kuralı ile hedef sermaye = Yıllık Harcama × 25</div></div>
-          </div>
-        </div>
-
-        <!-- AI DANIŞMAN PANELİ (Chat UI) -->
-        <div id="view-ai" class="view-container hidden space-y-6">
-          <h2 class="text-2xl font-bold">AI Finansal Asistan</h2>
-          <div class="card-glass p-5 h-96 flex flex-col"><div class="flex-1 overflow-y-auto space-y-3" id="chatMessages"><div class="bg-blue-50 dark:bg-gray-700 rounded-2xl p-3 w-fit max-w-xs">Merhaba! Finansal hedeflerin hakkında konuşalım. Bugün ne öğrenmek istersin? 📊</div></div><div class="flex gap-2 mt-4"><input type="text" id="chatInput" placeholder="AI danışmana sor (örn: nasıl yatırım yapmalıyım?)" class="input-field flex-1"><button id="sendChatBtn" class="btn-primary px-5">Gönder</button></div></div>
-          <div class="card-glass p-5"><h3 class="font-semibold">🧠 Öneri & İçgörü</h3><div id="aiInsight" class="text-sm p-3 bg-gray-50 dark:bg-gray-800 rounded-2xl">Yapay zeka, portföy dağılımını analiz ediyor...</div></div>
-        </div>
-
-        <!-- AYARLAR -->
-        <div id="view-settings" class="view-container hidden space-y-6">
-          <h2 class="text-2xl font-bold">Hesap Ayarları</h2>
-          <div class="card-glass p-5 grid gap-4"><h3>Profil Bilgileri</h3><input type="text" placeholder="Ad Soyad" id="profileName" class="input-field" value="Orhan Boyraz"><input type="email" placeholder="E-posta" id="profileEmail" class="input-field" value="orhan@anadolu.com"><button id="saveProfileBtn" class="btn-primary w-40">Güncelle</button><hr><div class="flex justify-between items-center"><span>Bildirimler</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="notifToggle" class="sr-only peer"><div class="w-11 h-6 bg-gray-300 rounded-full peer peer-checked:bg-blue-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div></label></div><button id="logoutBtn" class="bg-red-500 text-white rounded-full py-2 w-32">Çıkış Yap</button></div>
+      <!-- 2. ÜRETİM KATMANI (AI METİN, VIDEO SENARYO, SOSYAL MEDYA) -->
+      <div id="view-create" class="view-container hidden space-y-6">
+        <h2 class="text-2xl font-bold">🤖 AI İçerik Üretimi</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="card-glass p-5"><label>İçerik Türü</label><select id="prodType" class="input-field mt-1"><option value="makale">Makale / Blog</option><option value="sosyal">Sosyal Medya (LinkedIn/IG)</option><option value="video">Video Senaryosu</option><option value="prompt">Prompt Üretici (AI)</option></select><label>Konu</label><input type="text" id="prodTopic" class="input-field" placeholder="Finansal Özgürlük, Yapay Zeka"><button id="generateContentBtn" class="btn-primary mt-3">✨ İçerik Oluştur</button><div id="generatedOutput" class="mt-4 text-sm bg-gray-50 dark:bg-gray-800 p-4 rounded-2xl whitespace-pre-line"></div><div class="flex gap-2 mt-2"><button id="copyGenBtn" class="text-blue-600 text-sm"><i class="far fa-copy"></i> Kopyala</button><button id="saveToLibraryBtn" class="text-blue-600 text-sm"><i class="fas fa-save"></i> Kütüphaneye Kaydet</button></div></div>
+          <div class="card-glass p-5"><h3>⚡ Hızlı Prompt Mühendisliği</h3><p class="text-sm">“B2B pazarlama için 5 tıkla içerik fikri”</p><button id="quickPromptIdeas" class="btn-primary mt-3">Fikir Oluştur</button><div id="quickPromptRes" class="mt-3 text-sm"></div></div>
         </div>
       </div>
-    </main>
-  </div>
 
-  <!-- ÖDEME MODAL (STRIPE BENZERİ) -->
-  <div id="paymentModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden transition-all">
-    <div class="bg-white dark:bg-gray-900 rounded-3xl max-w-md w-full p-6 space-y-5"><h3 class="text-2xl font-bold">Abonelik Seçenekleri</h3><div class="space-y-3"><div class="flex justify-between p-3 border rounded-2xl"><div><span class="font-bold">Free</span><p class="text-xs">Temel araçlar</p></div><span class="font-bold">0₺/ay</span><button class="text-blue-600" onclick="alert('Demo mod, ödeme simülasyonu')">Seç</button></div><div class="flex justify-between p-3 border rounded-2xl"><div><span class="font-bold">Pro</span><p class="text-xs">AI Danışman + Detaylı Raporlar</p></div><span class="font-bold">49₺/ay</span><button class="text-blue-600" onclick="alert('Stripe simülasyonu: Ödeme başarılı')">Satın Al</button></div><div class="flex justify-between p-3 border rounded-2xl"><div><span class="font-bold">Premium</span><p class="text-xs">Sınırsız danışmanlık + API</p></div><span class="font-bold">99₺/ay</span><button class="text-blue-600" onclick="alert('Premium ödeme sayfası)'>Başvur</button></div></div><button id="closePaymentBtn" class="w-full border rounded-full py-2">Kapat</button></div>
-  </div>
+      <!-- 3. DÖNÜŞÜM KATMANI (Metin->Video ui, Metin->Görsel prompt, Kısa içerik çıkarma) -->
+      <div id="view-transform" class="view-container hidden space-y-6">
+        <h2 class="text-2xl font-bold">🔄 Dönüşüm Motoru</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="card-glass p-5"><label>Metin → Video (Simülasyon)</label><textarea id="transformText" rows="2" class="input-field" placeholder="Uzun metin veya blog içeriği..."></textarea><button id="simulateVideoBtn" class="btn-primary mt-2">Video Taslağı Oluştur</button><div id="videoSimOutput" class="mt-2 text-sm"></div></div>
+          <div class="card-glass p-5"><label>Metin → Görsel (Prompt)</label><textarea id="imgPromptText" rows="2" class="input-field" placeholder="Manzara, iş, teknoloji..."></textarea><button id="genImagePromptBtn" class="btn-primary mt-2">Görsel Prompt Üret</button><div id="imagePromptOut" class="mt-2 text-sm"></div></div>
+          <div class="card-glass p-5"><label>Uzun İçerik → Kısa İçerik (Özet)</label><textarea id="longContent" rows="2" class="input-field" placeholder="Uzun makale veya blog yazısı..."></textarea><button id="shortenBtn" class="btn-primary mt-2">Özetle & Kısalt</button><div id="shortContentOut" class="mt-2 text-sm"></div></div>
+        </div>
+      </div>
 
-  <script>
-    (function() {
-      // ---------- MOCK VERİLER ----------
-      let netWorthHistory = [125000, 132000, 141000, 153000, 165000, 178000];
-      let currentPortfolio = [
-        { name: "BIST Hisse", value: 125000, color: "#2563eb" },
-        { name: "Kripto (BTC)", value: 84000, color: "#f97316" },
-        { name: "Altın / Fon", value: 56000, color: "#eab308" }
-      ];
-      let cashBalance = 78500;
-      let totalInvestment = currentPortfolio.reduce((a,b)=>a+b.value,0);
-      let monthlySpending = 31200;
+      <!-- 4. İÇERİK YÖNETİM SİSTEMİ (CMS) -->
+      <div id="view-cms" class="view-container hidden space-y-6">
+        <div class="flex flex-wrap justify-between items-center"><h2 class="text-2xl font-bold">📚 İçerik Kütüphanesi</h2><input type="text" id="searchContent" placeholder="Ara (etiket/başlık)" class="input-field w-64"></div>
+        <div id="contentLibraryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      </div>
 
-      // DOM elementleri
-      const views = { dashboard: document.getElementById('view-dashboard'), invest: document.getElementById('view-invest'), credit: document.getElementById('view-credit'), tools: document.getElementById('view-tools'), ai: document.getElementById('view-ai'), settings: document.getElementById('view-settings') };
-      const navItems = document.querySelectorAll('.nav-item');
-      let currentView = 'dashboard';
-      let assetChart, lineChart, creditScoreChart;
+      <!-- 5. PARA KAZANMA KATMANI (Dijital ürün, abonelik, ödeme) -->
+      <div id="view-monetize" class="view-container hidden space-y-6">
+        <h2 class="text-2xl font-bold">💸 Para Kazanma</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="card-glass p-5"><label>Dijital Ürün Oluştur (E-Kitap/PDF)</label><input type="text" id="productName" placeholder="Ürün Adı" class="input-field"><input type="number" id="productPrice" placeholder="Fiyat (₺)" class="input-field"><button id="createProductBtn" class="btn-primary">Ürünü Listele</button><div id="productList" class="mt-3 space-y-2"></div></div>
+          <div class="card-glass p-5"><label>Abonelik Planları (UI)</label><div class="space-y-3"><div class="flex justify-between"><span>Basic</span><span>0 ₺/ay</span><button class="text-blue-600" onclick="alert('Demo ödeme')">Seç</button></div><div class="flex justify-between"><span>Pro</span><span>49 ₺/ay</span><button class="text-blue-600" onclick="alert('Stripe simülasyonu')">Satın Al</button></div><div class="flex justify-between"><span>Premium</span><span>129 ₺/ay</span><button class="text-blue-600" onclick="alert('Abonelik ödeme')">Satın Al</button></div></div></div>
+        </div>
+        <div class="card-glass p-5"><h3>Affiliate Panel (UI)</h3><p class="text-sm">Özel bağlantı: contentos.com/ref/creator20 → Kazanç oranı %15</p><button class="btn-primary text-sm" onclick="alert('Simülasyon: Afiliasyon bakiyeniz 320₺')">Kazancı Göster</button></div>
+      </div>
 
-      // SİMÜLASYON: net worth güncelleme
-      function updateDashboardUI() {
-        let netWorth = cashBalance + totalInvestment;
-        document.getElementById('netWorthVal').innerText = netWorth.toLocaleString('tr-TR') + ' ₺';
-        document.getElementById('cashVal').innerText = cashBalance.toLocaleString('tr-TR') + ' ₺';
-        document.getElementById('investVal').innerText = totalInvestment.toLocaleString('tr-TR') + ' ₺';
-        document.getElementById('spendingVal').innerText = monthlySpending.toLocaleString('tr-TR') + ' ₺';
-        if (lineChart) lineChart.destroy();
-        let ctx = document.getElementById('netWorthChart').getContext('2d');
-        lineChart = new Chart(ctx, { type: 'line', data: { labels: ['Ekim', 'Kasım', 'Aralık', 'Ocak', 'Şubat', 'Mart'], datasets: [{ label: 'Net Değer (₺)', data: netWorthHistory, borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.05)', tension: 0.3, fill: true }] }, options: { responsive: true, maintainAspectRatio: true } });
-        let txns = [{ name: 'Aylık yatırım', amount: '+₺12.500' },{ name: 'Kredi kartı ödemesi', amount: '-₺4.200' },{ name: 'Temettü geliri', amount: '+₺1.300' }];
-        document.getElementById('recentTransactions').innerHTML = txns.map(t => `<div class="flex justify-between items-center border-b pb-2"><span>${t.name}</span><span class="font-medium">${t.amount}</span></div>`).join('');
-      }
+      <!-- 6. OTOMASYON KATMANI (içerik planlama + workflow) -->
+      <div id="view-automation" class="view-container hidden space-y-6">
+        <h2 class="text-2xl font-bold">⏱️ Otomasyon & Takvim</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="card-glass p-5"><label>İçerik Planla (Schedule)</label><input type="text" id="scheduleTitle" placeholder="Başlık" class="input-field"><input type="date" id="scheduleDate" class="input-field"><button id="scheduleBtn" class="btn-primary">Planla</button><div id="scheduleList" class="mt-3 space-y-1 text-sm"></div></div>
+          <div class="card-glass p-5"><h3>Workflow Builder (Eğer X → Y)</h3><select id="triggerSelect" class="input-field"><option value="new_post">Yeni içerik yayınlandığında</option><option value="high_views">Yüksek görüntülenme (10K+)</option></select><select id="actionSelect" class="input-field"><option value="social_share">Otomatik sosyal paylaşım</option><option value="email_report">E-posta raporu gönder</option></select><button id="createWorkflowBtn" class="btn-primary">Akış Oluştur</button><div id="workflowFeedback" class="mt-2 text-sm"></div></div>
+        </div>
+      </div>
 
-      function updateInvestmentUI() {
-        totalInvestment = currentPortfolio.reduce((a,b)=>a+b.value,0);
-        let labels = currentPortfolio.map(p=>p.name);
-        let data = currentPortfolio.map(p=>p.value);
-        if (assetChart) assetChart.destroy();
-        let ctx = document.getElementById('assetChart').getContext('2d');
-        assetChart = new Chart(ctx, { type: 'doughnut', data: { labels, datasets: [{ data, backgroundColor: ['#2563eb','#f97316','#eab308','#10b981'] }] }, options: { responsive: true, plugins: { legend: { position: 'bottom' } } } });
-        document.getElementById('assetAllocationList').innerHTML = currentPortfolio.map(p => `<div class="flex justify-between"><span>${p.name}</span><span>${p.value.toLocaleString('tr-TR')} ₺</span></div>`).join('');
-      }
+      <!-- 7. AI ASİSTAN PANELİ (CHAT) -->
+      <div id="view-aiassist" class="view-container hidden space-y-6">
+        <h2 class="text-2xl font-bold">🤖 Content AI Asistan</h2>
+        <div class="card-glass p-5 h-96 flex flex-col">
+          <div class="flex-1 overflow-y-auto space-y-3" id="chatMessagesBox"><div class="bg-blue-50 dark:bg-gray-700 rounded-2xl p-3 w-fit max-w-xs">Merhaba! Bugün hangi içerik stratejisi üzerine çalışmak istersin?</div></div>
+          <div class="flex gap-2 mt-4"><input type="text" id="chatInputField" placeholder="AI'ya sor: Haftalık içerik takvimi nasıl olmalı?" class="input-field flex-1"><button id="sendChatMsgBtn" class="btn-primary px-5">Gönder</button></div>
+        </div>
+        <div class="card-glass p-5"><h3>📌 Öneri motoru</h3><div id="aiInsightBlock" class="text-sm">AI, içerik trendlerini analiz ediyor...</div></div>
+      </div>
+    </div>
+  </main>
+</div>
 
-      // KREDİ SKORU grafiği
-      function initCreditScoreChart(score=712) {
-        if (creditScoreChart) creditScoreChart.destroy();
-        let ctx = document.getElementById('creditScoreChart').getContext('2d');
-        creditScoreChart = new Chart(ctx, { type: 'doughnut', data: { datasets: [{ data: [score, 850-score], backgroundColor: ['#2563eb', '#e2e8f0'], borderWidth: 0 }] }, options: { cutout: '70%', plugins: { tooltip: { enabled: false }, legend: { display: false } } } });
-        document.getElementById('creditScoreValue').innerText = score;
-      }
-      
-      // BÜTÇE + FIRE
-      document.getElementById('calcBudgetBtn')?.addEventListener('click',()=>{ let inc=+document.getElementById('budgetIncome').value, exp=+document.getElementById('budgetExpense').value; let save=inc-exp; document.getElementById('budgetResult').innerHTML = save>=0 ? `✅ Aylık ${save.toLocaleString('tr-TR')} ₺ tasarruf ediyorsunuz.` : `⚠️ Aylık ${(-save).toLocaleString('tr-TR')} ₺ açık veriyorsunuz. Giderleri gözden geçirin.`; });
-      document.getElementById('calcFireBtn')?.addEventListener('click',()=>{ let annualExp=+document.getElementById('fireExpense').value; let capital=+document.getElementById('fireCapital').value; let target=annualExp*25; let needed=target-capital; document.getElementById('fireResult').innerHTML = `🎯 Hedef sermaye: ${target.toLocaleString('tr-TR')} ₺. Kalan ihtiyaç: ${needed>0?needed.toLocaleString('tr-TR')+' ₺':'Tebrikler, hedefe ulaştınız!'}`; });
+<!-- BİLDİRİM SİSTEMİ UI (toast) -->
+<div id="notificationToast" class="fixed bottom-6 right-6 bg-gray-900 text-white rounded-2xl px-4 py-2 shadow-xl text-sm z-50 hidden transition-all"></div>
 
-      // KREDİ HESAPLAMA
-      document.getElementById('calculateLoanBtn')?.addEventListener('click',()=>{ let amount=+document.getElementById('loanAmount').value, months=+document.getElementById('loanTerm').value; if(isNaN(amount)||isNaN(months)) return; let monthlyRate=0.0199; let monthlyPayment = (amount * monthlyRate * Math.pow(1+monthlyRate, months)) / (Math.pow(1+monthlyRate, months)-1); document.getElementById('loanResult').innerHTML = `Aylık ödeme tahmini: ${monthlyPayment.toFixed(2).toLocaleString('tr-TR')} ₺ (faiz %23.88 yıllık).`; });
-      // KREDİ SKORU BAŞLAT
-      initCreditScoreChart(732);
+<script>
+  (function() {
+    // ---------- MOCK VERİLER ----------
+    let libraryContents = [
+      { id: '1', title: 'Finansal Özgürlük Rehberi', type: 'makale', status: 'published', tags: ['fire','ekonomi'], date: '2025-03-10' },
+      { id: '2', title: 'AI ile İçerik Üretimi', type: 'video', status: 'draft', tags: ['ai','üretim'], date: '2025-03-15' },
+      { id: '3', title: 'LinkedIn Lead Generation', type: 'sosyal', status: 'published', tags: ['pazarlama'], date: '2025-03-20' }
+    ];
+    let totalViews = 124500;
+    let earnings = 4280;
+    let engagement = 8.2;
+    let scheduledItems = [];
 
-      // AL/SAT simülasyonu
-      document.getElementById('simulateBuyBtn')?.addEventListener('click',()=>{ let amount=+document.getElementById('tradeAmount').value; if(amount>cashBalance){ document.getElementById('tradeMessage').innerHTML='❌ Yetersiz nakit'; return; } cashBalance-=amount; totalInvestment+=amount; let selectedAsset=document.getElementById('assetSelect').value; let assetItem = currentPortfolio.find(p=> p.name===selectedAsset || (selectedAsset==='BTC' && p.name==='Kripto (BTC)') || (selectedAsset==='HISSETR' && p.name==='BIST Hisse')); if(assetItem) assetItem.value+=amount; else currentPortfolio.push({ name: selectedAsset, value: amount, color: '#a855f7' }); updateDashboardUI(); updateInvestmentUI(); document.getElementById('tradeMessage').innerHTML = `✅ ${amount.toLocaleString('tr-TR')} ₺ yatırım eklendi.`; });
-      document.getElementById('simulateSellBtn')?.addEventListener('click',()=>{ let amount=+document.getElementById('tradeAmount').value; if(amount>totalInvestment){ document.getElementById('tradeMessage').innerHTML='❌ Portföy bakiyesi yetersiz'; return; } totalInvestment-=amount; cashBalance+=amount; let leftAmount=amount; for(let i=0;i<currentPortfolio.length && leftAmount>0;i++){ let deduct=Math.min(currentPortfolio[i].value, leftAmount); currentPortfolio[i].value-=deduct; leftAmount-=deduct; } currentPortfolio = currentPortfolio.filter(p=>p.value>0); updateDashboardUI(); updateInvestmentUI(); document.getElementById('tradeMessage').innerHTML = `💰 ${amount.toLocaleString('tr-TR')} ₺ satış yapıldı.`; });
-      
-      function updateAll() { updateDashboardUI(); updateInvestmentUI(); }
-      
-      // AI CHAT (simüle)
-      document.getElementById('sendChatBtn')?.addEventListener('click',()=>{ let input=document.getElementById('chatInput'); let msg=input.value.trim(); if(!msg) return; let chatDiv=document.getElementById('chatMessages'); let userMsg=document.createElement('div'); userMsg.className='bg-gray-200 dark:bg-gray-700 rounded-2xl p-3 w-fit max-w-xs self-end ml-auto'; userMsg.innerText=msg; chatDiv.appendChild(userMsg); let reply=document.createElement('div'); reply.className='bg-blue-50 dark:bg-gray-700 rounded-2xl p-3 w-fit max-w-xs mt-2'; reply.innerText = '✨ Öneri: Düzenli yatırım ve acil durum fonu oluşturman finansal sağlamlığını artırır. Detaylı plan için pro pakete geçebilirsin.'; chatDiv.appendChild(reply); chatDiv.scrollTop=chatDiv.scrollHeight; document.getElementById('aiInsight').innerHTML = '🧠 Bugün: Portföy çeşitlendirmesi ve düzenli bütçe kontrolü, yıllık hedefine ulaşmanda etkili olacaktır.'; input.value=''; });
-      
-      // AYARLAR & DARK MODE
-      let darkMode = localStorage.getItem('darkMode') === 'true';
-      function applyDarkMode(enable) { if(enable) document.body.classList.add('dark'); else document.body.classList.remove('dark'); localStorage.setItem('darkMode', enable); }
-      applyDarkMode(darkMode);
-      document.getElementById('darkModeToggle')?.addEventListener('click',()=>{ darkMode=!darkMode; applyDarkMode(darkMode); });
-      document.getElementById('logoutBtn')?.addEventListener('click',()=>{ localStorage.removeItem('authToken'); alert('Çıkış yapıldı (demo)'); location.reload(); });
-
-      // Navigasyon
-      function setActiveView(viewId) {
-        Object.keys(views).forEach(v=> { if(views[v]) views[v].classList.add('hidden'); });
-        if(views[viewId]) views[viewId].classList.remove('hidden');
-        navItems.forEach(item=>{ item.classList.remove('active'); if(item.getAttribute('data-view')===viewId) item.classList.add('active'); });
-        currentView = viewId;
-        if(viewId === 'dashboard') updateDashboardUI();
-        if(viewId === 'invest') updateInvestmentUI();
-        if(viewId === 'credit') initCreditScoreChart(732);
-      }
-      navItems.forEach(item=>{ item.addEventListener('click',()=> setActiveView(item.getAttribute('data-view'))); });
-      // ödeme modal
-      document.getElementById('refreshDataBtn')?.addEventListener('click',()=>{ netWorthHistory.push(netWorthHistory[netWorthHistory.length-1]+Math.floor(Math.random()*8000)); if(netWorthHistory.length>6) netWorthHistory.shift(); updateDashboardUI(); });
-      document.getElementById('saveProfileBtn')?.addEventListener('click',()=>{ alert('Profil güncellendi (demo)'); });
-      document.getElementById('userProfileBtn')?.addEventListener('click',()=>{ document.getElementById('paymentModal').classList.remove('hidden'); });
-      document.getElementById('closePaymentBtn')?.addEventListener('click',()=>document.getElementById('paymentModal').classList.add('hidden'));
-      
-      // onboarding modal kapat
-      document.getElementById('closeOnboarding')?.addEventListener('click',()=>{ document.getElementById('onboardingModal').style.display='none'; });
-      // mobil menü
-      document.getElementById('mobileMenuBtn')?.addEventListener('click',()=>{ document.getElementById('sidebar').classList.toggle('translate-x-0'); });
-      // localStorage session simülasyonu (giriş atlanmıştır, UI var)
-      
-      updateAll();
-      setActiveView('dashboard');
-      // yüklenme simülasyonu için loading state (dashboard zaten dolu)
-    })();
-  </script>
+    // Helper: bildirim göster
+    function showNotification(msg, type='info') { let toast = document.getElementById('notificationToast'); toast.innerText = msg; toast.classList.remove('hidden'); setTimeout(()=>toast.classList.add('hidden'), 2500); }
+    
+    // Analytics grafik
+    let chart;
+    function renderChart() { let ctx = document.getElementById('contentChart').getContext('2d'); if(chart) chart.destroy(); chart = new Chart(ctx, { type: 'line', data: { labels: ['H1','H2','H3','H4','H5','H6'], datasets: [{ label: 'Görüntülenme (K)', data: [18,24,30,28,45,52], borderColor: '#2563eb', tension: 0.3, fill: false }] }, options: { responsive: true } }); }
+    function updateDashboardUI() {
+      document.getElementById('totalViews').innerText = totalViews.toLocaleString('tr-TR');
+      document.getElementById('engagementRate').innerText = engagement+'%';
+      document.getElementById('totalRevenue').innerText = '₺'+earnings.toLocaleString('tr-TR');
+      let topDiv = document.getElementById('topContentsList');
+      topDiv.innerHTML = `<div class="flex justify-between"><span>🔹 Yapay Zeka trendleri</span><span>12.4K gösterim</span></div><div class="flex justify-between"><span>🔹 Finansal Bağımsızlık</span><span>9.8K gösterim</span></div><div class="flex justify-between"><span>🔹 Sosyal Medya Stratejileri</span><span>7.2K gösterim</span></div>`;
+    }
+    function renderLibrary() {
+      let searchTerm = document.getElementById('searchContent')?.value.toLowerCase() || '';
+      let filtered = libraryContents.filter(c => c.title.toLowerCase().includes(searchTerm) || c.tags.some(t=>t.includes(searchTerm)));
+      let container = document.getElementById('contentLibraryGrid');
+      container.innerHTML = filtered.map(c => `<div class="card-glass p-4 content-card"><div class="flex justify-between"><span class="font-semibold">${c.title}</span><span class="text-xs ${c.status==='published'?'text-green-500':'text-yellow-500'}">${c.status==='published'?'📢 Yayında':'✏️ Taslak'}</span></div><div class="flex gap-2 mt-2">${c.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="flex justify-between mt-3"><button class="text-xs text-blue-600 editContentBtn" data-id="${c.id}">Düzenle</button><button class="text-xs text-red-500 deleteContentBtn" data-id="${c.id}">Sil</button></div></div>`).join('');
+      document.querySelectorAll('.deleteContentBtn').forEach(btn => btn.addEventListener('click', (e) => { let id = btn.dataset.id; libraryContents = libraryContents.filter(x=>x.id!==id); renderLibrary(); showNotification('İçerik silindi'); }));
+      document.querySelectorAll('.editContentBtn').forEach(btn => btn.addEventListener('click', (e) => { showNotification('Düzenleme modu (demo)'); }));
+    }
+    // İçerik üretimi (AI simülasyonu)
+    function generateMockContent(type, topic) { return `✨ **${topic}** konulu ${type} içerik örneği:\n\n${topic} dünyasında başarılı olmak için adım adım stratejiler. Hedef kitlenize uygun içerik planı oluşturun ve dönüşümleri artırın.`; }
+    document.getElementById('generateContentBtn')?.addEventListener('click',()=>{ let type = document.getElementById('prodType').value; let topic = document.getElementById('prodTopic').value; if(!topic) { alert('Konu girin'); return; } let res = generateMockContent(type,topic); document.getElementById('generatedOutput').innerText = res; window.lastGenerated = res; });
+    document.getElementById('copyGenBtn')?.addEventListener('click',()=>{ if(window.lastGenerated) { navigator.clipboard.writeText(window.lastGenerated); showNotification('Kopyalandı!'); } else showNotification('Önce içerik oluşturun'); });
+    document.getElementById('saveToLibraryBtn')?.addEventListener('click',()=>{ if(window.lastGenerated) { let newId = Date.now().toString(); let newItem = { id: newId, title: document.getElementById('prodTopic').value || 'Yeni İçerik', type: 'makale', status: 'draft', tags: ['ai'], date: new Date().toISOString().slice(0,10) }; libraryContents.unshift(newItem); renderLibrary(); showNotification('Kütüphaneye kaydedildi'); } else showNotification('İçerik yok'); });
+    document.getElementById('quickPromptIdeas')?.addEventListener('click',()=>{ document.getElementById('quickPromptRes').innerHTML = '💡 1. “AI ile pazarlama metni”  2. “Startup pitch deck”  3. “LinkedIn başlığı (B2B)”'; });
+    // Dönüşüm
+    document.getElementById('simulateVideoBtn')?.addEventListener('click',()=>{ let txt = document.getElementById('transformText').value; document.getElementById('videoSimOutput').innerHTML = txt ? `🎬 Video senaryo taslağı: "${txt.substring(0,80)}..." -> Görsel akış hazırlandı.` : 'Metin girin'; });
+    document.getElementById('genImagePromptBtn')?.addEventListener('click',()=>{ let txt = document.getElementById('imgPromptText').value; document.getElementById('imagePromptOut').innerHTML = `🎨 Görsel prompt: "${txt || 'teknoloji'}, 4k, modern, yüksek detay, siberpunk dokunuşu — DALL-E/ Midjourney için idealdir."`; });
+    document.getElementById('shortenBtn')?.addEventListener('click',()=>{ let long = document.getElementById('longContent').value; if(long) document.getElementById('shortContentOut').innerHTML = `📝 Kısa içerik: ${long.substring(0,120)}... (özetleme tamamlandı) #içerik #pazarlama`; });
+    // CMS arama
+    document.getElementById('searchContent')?.addEventListener('input', ()=>renderLibrary());
+    // Dijital ürün yönetimi
+    let products = [];
+    function renderProducts() { let container = document.getElementById('productList'); container.innerHTML = products.map(p=> `<div class="flex justify-between items-center border-b pb-1"><span>${p.name}</span><span>${p.price} ₺</span><button class="text-red-500 deleteProductBtn" data-name="${p.name}">Sil</button></div>`).join(''); document.querySelectorAll('.deleteProductBtn').forEach(btn=>btn.addEventListener('click',(e)=>{ products = products.filter(pr=>pr.name !== btn.dataset.name); renderProducts(); showNotification('Ürün silindi'); })); }
+    document.getElementById('createProductBtn')?.addEventListener('click',()=>{ let name = document.getElementById('productName').value; let price = document.getElementById('productPrice').value; if(!name || !price) return; products.push({name, price}); renderProducts(); showNotification(`${name} listelendi`); });
+    // schedule
+    function renderSchedules() { let container = document.getElementById('scheduleList'); container.innerHTML = scheduledItems.map(s=>`<div>📅 ${s.title} - ${s.date}</div>`).join(''); }
+    document.getElementById('scheduleBtn')?.addEventListener('click',()=>{ let title = document.getElementById('scheduleTitle').value; let date = document.getElementById('scheduleDate').value; if(title && date) { scheduledItems.push({title,date}); renderSchedules(); showNotification('Plan eklendi'); } });
+    document.getElementById('createWorkflowBtn')?.addEventListener('click',()=>{ let trigger = document.getElementById('triggerSelect').value; let action = document.getElementById('actionSelect').value; document.getElementById('workflowFeedback').innerHTML = `✅ Otomasyon kuralı oluşturuldu: ${trigger === 'new_post' ? 'Yeni içerik' : 'Yüksek görüntülenme'} → ${action === 'social_share' ? 'Sosyal medya paylaşımı' : 'E-posta raporu'}.`; });
+    
+    // AI ASİSTAN CHAT
+    document.getElementById('sendChatMsgBtn')?.addEventListener('click',()=>{ let input = document.getElementById('chatInputField'); let msg = input.value.trim(); if(!msg) return; let chatDiv = document.getElementById('chatMessagesBox'); let userDiv = document.createElement('div'); userDiv.className = 'bg-gray-200 dark:bg-gray-700 rounded-2xl p-3 w-fit max-w-xs self-end ml-auto mb-2'; userDiv.innerText = msg; chatDiv.appendChild(userDiv); let botDiv = document.createElement('div'); botDiv.className = 'bg-blue-50 dark:bg-gray-700 rounded-2xl p-3 w-fit max-w-xs mt-2'; botDiv.innerText = '✨ İçerik stratejisi: Haftada 3 blog + 2 video, trend takibi ve yeniden kullanım kazançları artırır. Detaylı plan için üyelik gerekli.'; chatDiv.appendChild(botDiv); chatDiv.scrollTop = chatDiv.scrollHeight; input.value = ''; document.getElementById('aiInsightBlock').innerHTML = '💡 AI analizi: Son 7 günde "finansal okuryazarlık" içeriklerinde %28 büyüme görüldü. Bu konuyu işle.'; });
+    
+    // SPA sayfa geçişleri + loading state simülasyonu
+    const views = ['dashboard','create','transform','cms','monetize','automation','aiassist'];
+    function showView(viewId) { views.forEach(v=>{ let el = document.getElementById(`view-${v}`); if(el) el.classList.add('hidden'); }); let active = document.getElementById(`view-${viewId}`); if(active) active.classList.remove('hidden'); document.querySelectorAll('.sidebar-item').forEach(item=>{ if(item.dataset.view === viewId) item.classList.add('active'); else item.classList.remove('active'); }); if(viewId==='dashboard') { updateDashboardUI(); renderChart(); } if(viewId==='cms') renderLibrary(); if(viewId==='automation') renderSchedules(); }
+    document.querySelectorAll('.sidebar-item').forEach(item=>{ item.addEventListener('click',()=>{ let view = item.dataset.view; showView(view); // loading simülasyonu (kısa)
+      let loaderDiv = document.createElement('div'); loaderDiv.className = 'loader mx-auto my-5'; document.querySelector('.main-content')?.appendChild(loaderDiv); setTimeout(()=>loaderDiv.remove(), 300);
+    }); });
+    // Dark mode
+    let darkMode = localStorage.getItem('osDark') === 'true';
+    function setDarkMode(val) { if(val) document.documentElement.classList.add('dark'); else document.documentElement.classList.remove('dark'); localStorage.setItem('osDark', val); }
+    setDarkMode(darkMode);
+    document.getElementById('darkModeToggle')?.addEventListener('click',()=>{ darkMode = !darkMode; setDarkMode(darkMode); });
+    // Onboarding ve refresh
+    document.getElementById('startOnboardingBtn')?.addEventListener('click',()=>{ document.getElementById('onboardingOverlay').style.display = 'none'; showNotification('Hoş geldiniz! OS hazır'); });
+    document.getElementById('refreshStats')?.addEventListener('click',()=>{ totalViews += Math.floor(Math.random()*2000); earnings += Math.floor(Math.random()*300); engagement = (Math.random()*12+2).toFixed(1); updateDashboardUI(); showNotification('Veriler güncellendi'); });
+    // Başlangıç
+    renderChart(); updateDashboardUI(); renderLibrary(); renderProducts(); renderSchedules(); showView('dashboard');
+    // mobil menü
+    document.getElementById('mobileMenuBtn')?.addEventListener('click',()=>{ document.getElementById('sidebar').classList.toggle('translate-x-0'); });
+  })();
+</script>
 </body>
 </html>
